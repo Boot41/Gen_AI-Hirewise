@@ -21,11 +21,17 @@ const ChatApp = () => {
                 model: 'llama3-8b-8192',
             });
 
-            setAiResponse(formatResponse(response.choices[0]?.message?.content || 'No response'));
+            const rawResponse = response.choices[0]?.message?.content || 'No response';
+            setAiResponse(formatResponse(removeAsterisks(rawResponse)));
         } catch (error) {
             console.error('Error:', error);
             setAiResponse('Error fetching response.');
         }
+    };
+
+    // Function to remove asterisks from response
+    const removeAsterisks = (text) => {
+        return text.replace(/\*/g, ''); // Remove all asterisks
     };
 
     // Function to format response into sections
